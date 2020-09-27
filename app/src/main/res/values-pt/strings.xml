@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LiveQuestions</string>
+    <string name="select_site">Selecionar site</string>
+    <string name="filter_by_tag">Filtrar por tag:</string>
+    <string name="no_filter">Sem filtro</string>
+    <string name="search_tags">Pesquisar tags</string>
+    <string name="search_sites">Pesquisar sites</string>
+    <string name="answered">Respondida</string>
+    <string name="not_answered_yet">Não respondida ainda</string>
+    <string name="votes">Votos</string>
+    <string name="answers">Respostas</string>
+</resources>
