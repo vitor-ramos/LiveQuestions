@@ -107,7 +107,7 @@ fun SheetContent(
         backgroundColor = Color(0xFFF4F4F4),
     )
     if (tags.isNotEmpty()) {
-        LazyColumnForIndexed(tags) { index, it ->
+        LazyColumnForIndexed(tags, Modifier.fillMaxSize()) { index, it ->
             Row(Modifier.fillMaxWidth().clickable(onClick = {
                 events.onSelectTag(it)
                 bottomSheetState.collapse()

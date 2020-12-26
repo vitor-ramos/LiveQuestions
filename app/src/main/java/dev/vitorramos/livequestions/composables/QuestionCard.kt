@@ -1,6 +1,5 @@
 package dev.vitorramos.livequestions.composables
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRowForIndexed
 import androidx.compose.material.Divider
@@ -17,7 +16,6 @@ import dev.vitorramos.livequestions.ui.colorAnsweredQuestion
 import dev.vitorramos.livequestions.ui.colorSecondaryText
 import dev.vitorramos.livequestions.util.short
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun QuestionCard(
     question: Question,
