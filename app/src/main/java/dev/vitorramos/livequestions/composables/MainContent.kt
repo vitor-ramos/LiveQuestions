@@ -1,5 +1,6 @@
 package dev.vitorramos.livequestions.composables
 
+import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
@@ -9,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import dev.vitorramos.livequestions.model.Question
 import dev.vitorramos.livequestions.model.SiteData
 
-interface MainContentEvents : SheetContentEvents, AppBarContentEvents, BodyContentEvents
+interface MainContentEvents : SheetContentEvents, AppBarContentEvents
 
 @ExperimentalMaterialApi
 @Composable
@@ -42,4 +43,11 @@ fun MainContent(
             )
         }
     }
-) { BodyContent(questions, siteData) }
+) {
+    LazyColumnFor(questions) {
+        QuestionCard(
+            it,
+            ChipStyling(siteData),
+        )
+    }
+}

@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class Question(
-    val answers: Int? = null,
-    val date: Date? = null,
-    val isAnswered: Boolean? = null,
-    val tags: List<String> = listOf(),
-    val title: String = "",
-    val user: String = "",
-    val votes: Int? = null,
+    val answers: Int,
+    val date: Date,
+    val isAnswered: Boolean,
+    val tags: List<String>,
+    val title: String,
+    val user: String,
+    val votes: Int,
 ) {
     internal constructor(questionItem: QuestionItem) : this(
         questionItem.answer_count,

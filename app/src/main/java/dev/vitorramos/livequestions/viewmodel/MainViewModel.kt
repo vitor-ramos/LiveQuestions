@@ -127,7 +127,7 @@ class MainViewModel : ViewModel(), SitesListContentEvents, MainContentEvents {
 
     override fun onClickChangeSite() = shouldShowSitesImpl.postValue(true)
 
-    override fun onLoadNextPage() {
+    fun onLoadNextPage() {
         val site = site.value
         if (site is SiteData) {
             loadingImpl.postValue(true)
