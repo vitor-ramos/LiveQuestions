@@ -123,10 +123,6 @@ class MainViewModel : ViewModel(), SitesListContentEvents, MainContentEvents {
         }
     }
 
-    override fun onClickClose() = shouldShowSitesImpl.postValue(false)
-
-    override fun onClickChangeSite() = shouldShowSitesImpl.postValue(true)
-
     fun onLoadNextPage() {
         val site = site.value
         if (site is SiteData) {

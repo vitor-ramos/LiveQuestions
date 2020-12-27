@@ -7,16 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
 import dev.vitorramos.livequestions.R
 import dev.vitorramos.livequestions.getString
 import dev.vitorramos.livequestions.model.SiteData
 
-interface AppBarContentEvents {
-    fun onClickChangeSite()
-}
-
 @Composable
-fun AppBarContent(site: SiteData, events: AppBarContentEvents) = Row(
+fun AppBarContent(site: SiteData, navigation: NavController) = Row(
     Modifier.fillMaxSize().padding(16.dp, 0.dp, 0.dp, 0.dp),
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically,
@@ -24,7 +22,7 @@ fun AppBarContent(site: SiteData, events: AppBarContentEvents) = Row(
     RemoteImage(site.logoUrl, Modifier.height(32.dp)) {
         Text(site.name)
     }
-    TextButton(events::onClickChangeSite) {
+    TextButton({ navigation.navigate("sites") }) {
         Text(getString(R.string.select_site))
         Spacer(Modifier.size(8.dp, 0.dp))
         LocalImage(

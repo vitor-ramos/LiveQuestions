@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.vitorramos.livequestions.R
 import dev.vitorramos.livequestions.getString
@@ -23,7 +24,6 @@ import dev.vitorramos.livequestions.ui.colorSecondaryText
 interface SitesListContentEvents {
     fun onChangeSitesSearch(value: String)
     fun onSelectSite(site: SiteData)
-    fun onClickClose()
 }
 
 @Composable
@@ -32,8 +32,9 @@ fun SitesListContent(
     searchBarValue: String,
     showCloseButton: Boolean,
     events: SitesListContentEvents,
+    navController: NavController,
 ) = Column {
-    SearchBar(searchBarValue, events::onChangeSitesSearch, showCloseButton, events::onClickClose)
+    SearchBar(searchBarValue, events::onChangeSitesSearch, showCloseButton, navController)
     LazyColumnFor(sites) {
         SiteItem(it, events::onSelectSite)
     }
@@ -44,13 +45,15 @@ private fun SearchBar(
     value: String,
     onValueChange: (String) -> Unit,
     showCloseButton: Boolean,
-    onCloseClick: () -> Unit,
+    navController: NavController,
 ) = TextField(
     value,
     onValueChange,
     Modifier.fillMaxWidth(),
     leadingIcon = {
-        if (showCloseButton) TextButton(onCloseClick) { LocalImage(R.drawable.back) }
+        if (showCloseButton) TextButton({ navController.popBackStack() }) {
+            LocalImage(R.drawable.back)
+        }
     },
     textStyle = TextStyle(fontSize = 16.sp),
     onImeActionPerformed = { _, keyboard ->

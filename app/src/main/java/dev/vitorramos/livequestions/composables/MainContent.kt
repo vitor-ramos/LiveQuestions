@@ -7,10 +7,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
 import dev.vitorramos.livequestions.model.Question
 import dev.vitorramos.livequestions.model.SiteData
 
-interface MainContentEvents : SheetContentEvents, AppBarContentEvents
+interface MainContentEvents : SheetContentEvents
 
 @ExperimentalMaterialApi
 @Composable
@@ -23,6 +24,7 @@ fun MainContent(
     questions: List<Question>,
     loading: Boolean,
     events: MainContentEvents,
+    navController: NavController,
 ) = BottomSheetScaffold(
     scaffoldState = bottomSheetScaffoldState,
     sheetContent = {
@@ -39,7 +41,7 @@ fun MainContent(
         TopAppBar(backgroundColor = Color.White) {
             AppBarContent(
                 siteData,
-                events
+                navController,
             )
         }
     }

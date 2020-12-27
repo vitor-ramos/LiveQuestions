@@ -3,16 +3,15 @@ package dev.vitorramos.livequestions.screen
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.setContent
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dev.vitorramos.livequestions.castOrNull
 import dev.vitorramos.livequestions.composables.MainContent
 import dev.vitorramos.livequestions.composables.SitesListContent
@@ -50,30 +49,58 @@ class MainActivity : AppCompatActivity() {
             else BackButtonCallback { collapse() }
         }
 
+        val navController = rememberNavController()
+
         LiveQuestionsTheme {
-            when {
-                site == null -> Box(Modifier.fillMaxSize(), Alignment.Center) {
-                    CircularProgressIndicator()
+            NavHost(navController, "questions") {
+                composable("questions") {
+                    MainContent(
+                        bottomSheetScaffoldState,
+                        tags,
+                        selectedTag,
+                        tagsSearch,
+                        site as SiteData,
+                        questions,
+                        loading,
+                        viewModel,
+                        navController,
+                    )
                 }
-                shouldShowSites || (site is SiteNotSelected) -> SitesListContent(
-                    sites.moveToFirst {
-                        site.castOrNull<SiteData>()?.apiSiteParameter == it.apiSiteParameter
-                    },
-                    sitesSearch,
-                    showCloseButton = shouldShowSites,
-                    viewModel,
-                )
-                site is SiteData -> MainContent(
-                    bottomSheetScaffoldState,
-                    tags,
-                    selectedTag,
-                    tagsSearch,
-                    site as SiteData,
-                    questions,
-                    loading,
-                    viewModel,
-                )
+                composable("sites") {
+                    SitesListContent(
+                        sites.moveToFirst {
+                            site.castOrNull<SiteData>()?.apiSiteParameter == it.apiSiteParameter
+                        },
+                        sitesSearch,
+                        showCloseButton = shouldShowSites,
+                        viewModel,
+                        navController,
+                    )
+                }
             }
+//            when {
+//                site == null -> Box(Modifier.fillMaxSize(), Alignment.Center) {
+//                    CircularProgressIndicator()
+//                }
+//                shouldShowSites || (site is SiteNotSelected) -> SitesListContent(
+//                    sites.moveToFirst {
+//                        site.castOrNull<SiteData>()?.apiSiteParameter == it.apiSiteParameter
+//                    },
+//                    sitesSearch,
+//                    showCloseButton = shouldShowSites,
+//                    viewModel,
+//                )
+//                site is SiteData -> MainContent(
+//                    bottomSheetScaffoldState,
+//                    tags,
+//                    selectedTag,
+//                    tagsSearch,
+//                    site as SiteData,
+//                    questions,
+//                    loading,
+//                    viewModel,
+//                )
+//            }
         }
     }
 
