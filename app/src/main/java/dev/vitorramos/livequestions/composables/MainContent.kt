@@ -11,36 +11,34 @@ import androidx.navigation.NavController
 import dev.vitorramos.livequestions.model.Question
 import dev.vitorramos.livequestions.model.SiteData
 
-interface MainContentEvents : SheetContentEvents
-
 @ExperimentalMaterialApi
 @Composable
 fun MainContent(
-    bottomSheetScaffoldState: BottomSheetScaffoldState,
-    tags: List<String>,
-    selectedTag: String?,
-    tagsSearch: String,
-    siteData: SiteData,
+    site: SiteData,
     questions: List<Question>,
+    tags: List<String>,
+    tag: String?,
+    tagsSearch: String,
     loading: Boolean,
-    events: MainContentEvents,
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
     navController: NavController,
+    events: SheetContentEvents,
 ) = BottomSheetScaffold(
     scaffoldState = bottomSheetScaffoldState,
     sheetContent = {
         SheetContent(
-            bottomSheetScaffoldState.bottomSheetState,
             tags,
-            selectedTag,
+            tag,
             tagsSearch,
+            bottomSheetScaffoldState.bottomSheetState,
+            ChipStyling(site),
             events,
-            ChipStyling(siteData),
         )
     },
     topBar = {
         TopAppBar(backgroundColor = Color.White) {
             AppBarContent(
-                siteData,
+                site,
                 navController,
             )
         }
@@ -49,7 +47,7 @@ fun MainContent(
     LazyColumnFor(questions) {
         QuestionCard(
             it,
-            ChipStyling(siteData),
+            ChipStyling(site),
         )
     }
 }

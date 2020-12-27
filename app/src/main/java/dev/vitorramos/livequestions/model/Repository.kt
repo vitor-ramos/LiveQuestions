@@ -3,7 +3,7 @@ package dev.vitorramos.livequestions.model
 import android.content.SharedPreferences
 import dev.vitorramos.livequestions.getString
 import dev.vitorramos.livequestions.string
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 interface Repository {
     suspend fun getQuestions(siteId: String, tag: String?, page: Int): List<Question>
@@ -17,9 +17,9 @@ interface Repository {
 }
 
 class RepositoryImpl : Repository {
-    private val database by KoinJavaComponent.inject(AppDatabase::class.java)
-    private val service by KoinJavaComponent.inject(Service::class.java)
-    private val sharedPref by KoinJavaComponent.inject(SharedPreferences::class.java)
+    private val database by inject(AppDatabase::class.java)
+    private val service by inject(Service::class.java)
+    private val sharedPref by inject(SharedPreferences::class.java)
 
     override suspend fun getQuestions(siteId: String, tag: String?, page: Int): List<Question> {
         val response = service.fetchQuestions(page, tag, siteId)

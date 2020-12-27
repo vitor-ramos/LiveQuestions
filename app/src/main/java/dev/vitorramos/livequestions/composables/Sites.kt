@@ -27,12 +27,12 @@ interface SitesListContentEvents {
 }
 
 @Composable
-fun SitesListContent(
+fun Sites(
     sites: List<SiteData>,
     searchBarValue: String,
     showCloseButton: Boolean,
-    events: SitesListContentEvents,
     navController: NavController,
+    events: SitesListContentEvents,
 ) = Column {
     SearchBar(searchBarValue, events::onChangeSitesSearch, showCloseButton, navController)
     LazyColumnFor(sites) {

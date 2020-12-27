@@ -14,8 +14,6 @@ fun SharedPreferences.getString(key: String): String? = getString(key, null)
 
 fun SharedPreferences.string(key: String, defValue: String): String = getString(key, defValue)!!
 
-inline fun <reified T> Any?.castOrNull(): T? = if (this is T) this else null
-
 @Composable
 fun getString(@StringRes id: Int) = AmbientContext.current.getString(id)
 

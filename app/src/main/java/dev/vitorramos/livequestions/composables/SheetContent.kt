@@ -32,12 +32,12 @@ interface SheetContentEvents {
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
 fun SheetContent(
-    bottomSheetState: BottomSheetState,
     tags: List<String>,
     selectedTag: String?,
     searchValue: String,
-    events: SheetContentEvents,
+    bottomSheetState: BottomSheetState,
     chipStyling: ChipStyling,
+    events: SheetContentEvents,
 ) = Column {
     Row(
         Modifier.fillMaxWidth()
