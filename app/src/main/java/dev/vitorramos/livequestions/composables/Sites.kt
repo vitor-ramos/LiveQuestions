@@ -1,19 +1,26 @@
 package dev.vitorramos.livequestions.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.vitorramos.livequestions.R
 import dev.vitorramos.livequestions.getString
@@ -35,46 +42,65 @@ fun Sites(
     events: SitesListContentEvents,
 ) = Column {
     SearchBar(searchBarValue, events::onChangeSitesSearch, showCloseButton, navController)
-    LazyColumnFor(sites) {
-        SiteItem(it, events::onSelectSite)
+    LazyColumn {
+        items(sites) {
+            SiteItem(it) { site ->
+                events.onSelectSite(site)
+                navController.navigate("questions") {
+                    popUpTo(-1) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
     }
 }
 
 @Composable
+@OptIn(ExperimentalComposeUiApi::class)
 private fun SearchBar(
     value: String,
     onValueChange: (String) -> Unit,
     showCloseButton: Boolean,
     navController: NavController,
-) = TextField(
-    value,
-    onValueChange,
-    Modifier.fillMaxWidth(),
-    leadingIcon = {
-        if (showCloseButton) TextButton({ navController.popBackStack() }) {
-            LocalImage(R.drawable.back)
+) {
+    val softKeyboardController = LocalSoftwareKeyboardController.current
+    TextField(
+        value,
+        onValueChange,
+        Modifier.fillMaxWidth(),
+        leadingIcon = {
+            if (showCloseButton) TextButton({ navController.popBackStack() }) {
+                Image(painterResource(R.drawable.back), "Voltar")
+            }
+        },
+        textStyle = TextStyle(fontSize = 16.sp),
+        keyboardActions = KeyboardActions {
+            softKeyboardController?.hideSoftwareKeyboard()
+        },
+        placeholder = {
+            Text(getString(R.string.search_sites))
         }
-    },
-    textStyle = TextStyle(fontSize = 16.sp),
-    onImeActionPerformed = { _, keyboard ->
-        keyboard?.hideSoftwareKeyboard()
-    },
-    placeholder = {
-        Text(getString(R.string.search_sites))
-    }
-)
+    )
+}
 
 @Composable
 private fun SiteItem(
     site: SiteData,
     onSiteSelected: (SiteData) -> Unit,
-) = Column(Modifier.fillMaxWidth().clickable(onClick = { onSiteSelected(site) })) {
+) = Column(
+    Modifier
+        .fillMaxWidth()
+        .clickable(onClick = { onSiteSelected(site) })
+) {
     Row(
-        Modifier.fillMaxWidth().padding(16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CoilImage(site.iconUrl, Modifier.size(56.dp), error = {
-            LocalImage(R.drawable.ic_image_not_loaded)
+        CoilImage(site.iconUrl, null, Modifier.size(56.dp), error = {
+            Image(painterResource(R.drawable.ic_image_not_loaded), null)
         })
         Spacer(Modifier.width(8.dp))
         Column {
@@ -82,5 +108,9 @@ private fun SiteItem(
             Text(site.audience, color = colorSecondaryText)
         }
     }
-    Divider(Modifier.fillMaxWidth().height(1.dp), colorDivider)
+    Divider(
+        Modifier
+            .fillMaxWidth()
+            .height(1.dp), colorDivider
+    )
 }

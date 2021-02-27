@@ -1,19 +1,21 @@
 package dev.vitorramos.livequestions.screen
 
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.platform.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.vitorramos.livequestions.composables.MainContent
 import dev.vitorramos.livequestions.composables.Sites
 import dev.vitorramos.livequestions.model.SiteData
+import dev.vitorramos.livequestions.model.SiteNotSelected
 import dev.vitorramos.livequestions.ui.LiveQuestionsTheme
 import dev.vitorramos.livequestions.viewmodel.MainViewModel
 
@@ -22,11 +24,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent()
+        setContent {
+            Content()
+        }
     }
 
+    @Composable
     @OptIn(ExperimentalMaterialApi::class)
-    private fun setContent() = setContent {
+    private fun Content() {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
         val navController = rememberNavController()
 
@@ -43,7 +48,10 @@ class MainActivity : AppCompatActivity() {
         val loading by viewModel.loading.observeAsState(false)
 
         LiveQuestionsTheme {
-            NavHost(navController, "questions") {
+            NavHost(
+                navController,
+                if (site is SiteData) "questions" else "sites",
+            ) {
                 composable("questions") {
                     MainContent(
                         site = site as SiteData,
@@ -61,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     Sites(
                         sites = sites,
                         searchBarValue = sitesSearch,
-                        showCloseButton = site != null, // TODO
+                        showCloseButton = site != null,
                         navController = navController,
                         events = viewModel,
                     )

@@ -1,6 +1,7 @@
 package dev.vitorramos.livequestions.composables
 
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
@@ -44,10 +45,12 @@ fun MainContent(
         }
     }
 ) {
-    LazyColumnFor(questions) {
-        QuestionCard(
-            it,
-            ChipStyling(site),
-        )
+    LazyColumn {
+        items(questions) {
+            QuestionCard(
+                it,
+                ChipStyling(site),
+            )
+        }
     }
 }
