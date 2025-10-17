@@ -66,19 +66,21 @@ fun SheetContent(
         Arrangement.SpaceBetween,
         Alignment.CenterVertically,
     ) {
-        val maxInput =
-            (LocalConfiguration.current.screenHeightDp - 56) * LocalDensity.current.density
-        val input = bottomSheetState.offset.value
-        val angle = -convert(input, 0f, maxInput, 0f, 180f)
+//        TODO
+//        val maxInput =
+//            (LocalConfiguration.current.screenHeightDp - 56) * LocalDensity.current.density
+//        val input = bottomSheetState.offset.value
+//        val angle = -convert(input, 0f, maxInput, 0f, 180f)
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.size(56.dp), Alignment.Center) {
                 Image(
                     painterResource(R.drawable.ic_down),
-                    if (angle > 90) "Fechar tags" else "Abrir tags", // TODO
+//                    if (angle > 90) "Fechar tags" else "Abrir tags",
+                    if (bottomSheetState.isExpanded) "Fechar tags" else "Abrir tags",
                     Modifier
                         .size(32.dp)
-                        .graphicsLayer(rotationZ = angle),
+//                        .graphicsLayer(rotationZ = angle),
                 )
             }
             Text(getString(R.string.filter_by_tag), color = colorSecondaryText)
@@ -111,7 +113,7 @@ fun SheetContent(
             Text(getString(R.string.search_tags))
         },
         keyboardActions = KeyboardActions(onAny = {
-            softKeyboardController?.hideSoftwareKeyboard()
+//            softKeyboardController?.hideSoftwareKeyboard() TODO
             events.onClickTagSearch()
         }),
         trailingIcon = {

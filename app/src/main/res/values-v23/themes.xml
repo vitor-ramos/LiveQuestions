@@ -1,7 +1,0 @@
-<resources>
-
-    <style name="Theme.LiveQuestions" parent="Theme.MaterialComponents.Light">
-        <item name="android:statusBarColor">@android:color/white</item>
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
-</resources>

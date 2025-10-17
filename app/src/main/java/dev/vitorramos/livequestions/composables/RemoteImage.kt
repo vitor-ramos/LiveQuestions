@@ -10,13 +10,16 @@ fun RemoteImage(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     fallback: @Composable () -> Unit = {},
-) = if (url != null) {
-    CoilImage(
-        url,
-        contentDescription,
-        modifier,
-        error = { fallback() },
-    )
-} else {
-    fallback()
+) {
+//    TODO
+//    if (url != null) {
+//        CoilImage(
+//            url,
+//            contentDescription,
+//            modifier,
+//            error = { fallback() },
+//        )
+//    } else {
+        fallback()
+//    }
 }

@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 class MainViewModel : ViewModel(), SitesListContentEvents, SheetContentEvents {
-    private val repository by inject(Repository::class.java)
+    private val repository: Repository by inject(Repository::class.java)
 
     private val questionsImpl = MediatorLiveData<List<Question>>()
     private val sitesImpl = MediatorLiveData<List<SiteData>>()
@@ -124,21 +124,6 @@ class MainViewModel : ViewModel(), SitesListContentEvents, SheetContentEvents {
             repository.selectSite(site.apiSiteParameter)
             tagImpl.postValue("")
             siteImpl.postValue(site)
-        }
-    }
-
-    fun onLoadNextPage() {
-        val site = site.value
-        if (site is SiteData) {
-            loadingImpl.postValue(true)
-            viewModelScope.launch {
-                pageLoaded++
-                questionsImpl.postValue(mutableListOf<Question>().apply {
-                    questions.value?.let { addAll(it) }
-                    addAll(repository.getQuestions(site.apiSiteParameter, tag.value, pageLoaded))
-                })
-                loadingImpl.postValue(false)
-            }
         }
     }
 

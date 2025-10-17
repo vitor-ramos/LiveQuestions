@@ -1,12 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.LiveQuestions" parent="Theme.MaterialComponents.Light">
-        <item name="android:statusBarColor">#5a5a5a</item>
-    </style>
-
-    <style name="Theme.LiveQuestions.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
+    <style name="Theme.LiveQuestions" parent="Theme.AppCompat.Light.NoActionBar" />
 </resources>

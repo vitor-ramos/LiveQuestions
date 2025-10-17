@@ -17,9 +17,8 @@ interface Repository {
 }
 
 class RepositoryImpl : Repository {
-    private val database by inject(AppDatabase::class.java)
-    private val service by inject(Service::class.java)
-    private val sharedPref by inject(SharedPreferences::class.java)
+    private val service: Service by inject(Service::class.java)
+    private val sharedPref: SharedPreferences by inject(SharedPreferences::class.java)
 
     override suspend fun getQuestions(siteId: String, tag: String?, page: Int): List<Question> {
         val response = service.fetchQuestions(page, tag, siteId)
@@ -31,10 +30,8 @@ class RepositoryImpl : Repository {
                     ?: listOf()
 
     override suspend fun getSites() = mutableListOf<SiteData>().apply {
-        addAll(database.siteDao().getSites())
-        if (isEmpty()) service.fetchSites()?.body()?.items?.filterNotNull()?.let {
+        service.fetchSites()?.body()?.items?.filterNotNull()?.let {
             addAll(it)
-            database.siteDao().putSites(it)
         }
     }
 
@@ -57,7 +54,10 @@ class RepositoryImpl : Repository {
         }
     }
 
-    override suspend fun getSite(siteId: String) = database.siteDao().getSite(siteId)
+    override suspend fun getSite(siteId: String) =
+        service.fetchSites()?.body()?.items?.firstOrNull {
+            siteId == it?.apiSiteParameter
+        }
 }
 
 private const val SHARED_PREF_KEY_SELECTED_SITE = "SHARED_PREF_KEY_SELECTED_SITE"

@@ -2,7 +2,11 @@ package dev.vitorramos.livequestions.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
@@ -20,8 +24,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
-import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.vitorramos.livequestions.R
 import dev.vitorramos.livequestions.getString
 import dev.vitorramos.livequestions.model.SiteData
@@ -76,7 +78,7 @@ private fun SearchBar(
         },
         textStyle = TextStyle(fontSize = 16.sp),
         keyboardActions = KeyboardActions {
-            softKeyboardController?.hideSoftwareKeyboard()
+//            softKeyboardController?.hideSoftwareKeyboard() TODO
         },
         placeholder = {
             Text(getString(R.string.search_sites))
@@ -99,10 +101,11 @@ private fun SiteItem(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CoilImage(site.iconUrl, null, Modifier.size(56.dp), error = {
-            Image(painterResource(R.drawable.ic_image_not_loaded), null)
-        })
-        Spacer(Modifier.width(8.dp))
+//        TODO
+//        CoilImage(site.iconUrl, null, Modifier.size(56.dp), error = {
+//            Image(painterResource(R.drawable.ic_image_not_loaded), null)
+//        })
+//        Spacer(Modifier.width(8.dp))
         Column {
             Text(site.name)
             Text(site.audience, color = colorSecondaryText)

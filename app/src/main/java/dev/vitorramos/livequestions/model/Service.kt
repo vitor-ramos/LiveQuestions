@@ -4,7 +4,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-internal interface Service {
+interface Service {
     @GET("2.2/questions?order=desc&sort=creation&pageSize=30")
     suspend fun fetchQuestions(
         @Query("page") page: Int,

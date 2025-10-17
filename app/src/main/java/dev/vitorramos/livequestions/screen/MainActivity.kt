@@ -15,7 +15,6 @@ import androidx.navigation.compose.rememberNavController
 import dev.vitorramos.livequestions.composables.MainContent
 import dev.vitorramos.livequestions.composables.Sites
 import dev.vitorramos.livequestions.model.SiteData
-import dev.vitorramos.livequestions.model.SiteNotSelected
 import dev.vitorramos.livequestions.ui.LiveQuestionsTheme
 import dev.vitorramos.livequestions.viewmodel.MainViewModel
 

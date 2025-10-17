@@ -12,7 +12,7 @@ data class Question(
     val user: String,
     val votes: Int,
 ) {
-    internal constructor(questionItem: QuestionItem) : this(
+    constructor(questionItem: QuestionItem) : this(
         questionItem.answer_count,
         Date(questionItem.creation_date * 1000),
         questionItem.is_answered,
@@ -23,9 +23,9 @@ data class Question(
     )
 }
 
-internal data class QuestionsResponse(@SerializedName("items") val items: List<QuestionItem?>)
+data class QuestionsResponse(@SerializedName("items") val items: List<QuestionItem?>)
 
-internal data class QuestionItem(
+data class QuestionItem(
     @SerializedName("answer_count") val answer_count: Int,
     @SerializedName("creation_date") val creation_date: Long,
     @SerializedName("is_answered") val is_answered: Boolean,
@@ -35,6 +35,6 @@ internal data class QuestionItem(
     @SerializedName("owner") val owner: Owner,
 )
 
-internal data class Owner(
+data class Owner(
     @SerializedName("display_name") val display_name: String,
 )
