@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -42,15 +43,19 @@ fun Sites(
     showCloseButton: Boolean,
     navController: NavController,
     events: SitesListContentEvents,
-) = Column {
-    SearchBar(searchBarValue, events::onChangeSitesSearch, showCloseButton, navController)
-    LazyColumn {
-        items(sites) {
-            SiteItem(it) { site ->
-                events.onSelectSite(site)
-                navController.navigate("questions") {
-                    popUpTo(-1) {
-                        inclusive = true
+) {
+    Scaffold { paddingValues ->
+        Column(Modifier.padding(paddingValues)) {
+            SearchBar(searchBarValue, events::onChangeSitesSearch, showCloseButton, navController)
+            LazyColumn {
+                items(sites) {
+                    SiteItem(it) { site ->
+                        events.onSelectSite(site)
+                        navController.navigate("questions") {
+                            popUpTo(-1) {
+                                inclusive = true
+                            }
+                        }
                     }
                 }
             }

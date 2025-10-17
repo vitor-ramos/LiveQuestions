@@ -25,38 +25,40 @@ fun MainContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     navController: NavController,
     events: SheetContentEvents,
-) = BottomSheetScaffold(
-    scaffoldState = bottomSheetScaffoldState,
-    sheetContent = {
-        SheetContent(
-            tags,
-            tag,
-            tagsSearch,
-            bottomSheetScaffoldState.bottomSheetState,
-            ChipStyling(site),
-            events,
-        )
-    },
-    topBar = {
-        TopAppBar(
-            title = {
-                AppBarContent(
-                    site,
-                    navController,
-                )
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.White,
-            ),
-        )
-    }
 ) {
-    LazyColumn {
-        items(questions) {
-            QuestionCard(
-                it,
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+            SheetContent(
+                tags,
+                tag,
+                tagsSearch,
+                bottomSheetScaffoldState.bottomSheetState,
                 ChipStyling(site),
+                events,
             )
+        },
+        topBar = {
+            TopAppBar(
+                title = {
+                    AppBarContent(
+                        site,
+                        navController,
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.White,
+                ),
+            )
+        }
+    ) {
+        LazyColumn {
+            items(questions) {
+                QuestionCard(
+                    it,
+                    ChipStyling(site),
+                )
+            }
         }
     }
 }
