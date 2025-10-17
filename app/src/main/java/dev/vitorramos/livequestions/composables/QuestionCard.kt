@@ -20,8 +20,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import dev.vitorramos.livequestions.R
 import dev.vitorramos.livequestions.model.Question
-import dev.vitorramos.livequestions.ui.colorAnsweredQuestion
-import dev.vitorramos.livequestions.ui.colorSecondaryText
 import dev.vitorramos.livequestions.util.short
 
 @Composable
@@ -51,7 +49,6 @@ fun QuestionCard(
     Text(
         LocalContext.current.getString(if (question.isAnswered) R.string.answered else R.string.not_answered_yet),
         Modifier.padding(16.dp, 8.dp, 0.dp, 8.dp),
-        if (question.isAnswered) colorAnsweredQuestion else colorSecondaryText,
     )
     HorizontalDivider(color = Color.LightGray)
     Spacer(Modifier.height(8.dp))
@@ -70,7 +67,6 @@ fun QuestionCard(
                 Text(question.votes.toString())
                 Text(
                     LocalContext.current.getString(R.string.votes),
-                    color = colorSecondaryText
                 )
             }
             Spacer(Modifier.size(16.dp, 0.dp))
@@ -78,7 +74,6 @@ fun QuestionCard(
                 Text(question.answers.toString())
                 Text(
                     LocalContext.current.getString(R.string.answers),
-                    color = colorSecondaryText
                 )
             }
         }

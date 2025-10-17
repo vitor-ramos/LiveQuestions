@@ -4,9 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
@@ -25,11 +27,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil3.compose.AsyncImage
 import dev.vitorramos.livequestions.R
 import dev.vitorramos.livequestions.getString
 import dev.vitorramos.livequestions.model.SiteData
-import dev.vitorramos.livequestions.ui.colorDivider
-import dev.vitorramos.livequestions.ui.colorSecondaryText
 
 interface SitesListContentEvents {
     fun onChangeSitesSearch(value: String)
@@ -106,20 +107,19 @@ private fun SiteItem(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-//        TODO
-//        CoilImage(site.iconUrl, null, Modifier.size(56.dp), error = {
-//            Image(painterResource(R.drawable.ic_image_not_loaded), null)
-//        })
-//        Spacer(Modifier.width(8.dp))
+        AsyncImage(
+            model = site.iconUrl,
+            contentDescription = null,
+        )
+        Spacer(Modifier.width(8.dp))
         Column {
             Text(site.name)
-            Text(site.audience, color = colorSecondaryText)
+            Text(site.audience)
         }
     }
     HorizontalDivider(
         modifier = Modifier
             .fillMaxWidth()
             .height(1.dp),
-        color = colorDivider,
     )
 }

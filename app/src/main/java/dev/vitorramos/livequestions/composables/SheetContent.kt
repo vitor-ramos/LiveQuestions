@@ -35,7 +35,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import dev.vitorramos.livequestions.R
 import dev.vitorramos.livequestions.getString
-import dev.vitorramos.livequestions.ui.colorSecondaryText
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -97,7 +96,7 @@ fun SheetContent(
 //                        .graphicsLayer(rotationZ = angle),
                 )
             }
-            Text(getString(R.string.filter_by_tag), color = colorSecondaryText)
+            Text(getString(R.string.filter_by_tag))
         }
         Box(Modifier.padding(0.dp, 0.dp, 16.dp, 0.dp)) {
             androidx.compose.animation.AnimatedVisibility(
@@ -114,7 +113,7 @@ fun SheetContent(
                 enter = fadeIn(),
                 exit = fadeOut(),
             ) {
-                Text(getString(R.string.no_filter), color = colorSecondaryText)
+                Text(getString(R.string.no_filter))
             }
         }
     }
@@ -135,7 +134,6 @@ fun SheetContent(
                 Image(Icons.Filled.Search, "Pesquisar")
             }
         },
-//        colors = TextFieldDefaults.colors(backgroundColor = Color(0xFFF4F4F4)), TODO
     )
     if (tags.isNotEmpty()) {
         LazyColumn(Modifier.fillMaxSize()) {
