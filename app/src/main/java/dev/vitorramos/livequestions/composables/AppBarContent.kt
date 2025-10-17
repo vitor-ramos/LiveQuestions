@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil3.compose.AsyncImage
 import dev.vitorramos.livequestions.R
 import dev.vitorramos.livequestions.getString
 import dev.vitorramos.livequestions.model.SiteData
@@ -28,9 +29,11 @@ fun AppBarContent(site: SiteData, navController: NavController) = Row(
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically,
 ) {
-    RemoteImage(site.logoUrl, site.name, Modifier.height(32.dp)) {
-        Text(site.name)
-    }
+    AsyncImage(
+        model = site.logoUrl,
+        contentDescription = site.name,
+        modifier = Modifier.height(32.dp),
+    )
     TextButton({ navController.navigate("sites") }) {
         Text(getString(R.string.select_site))
         Spacer(Modifier.size(8.dp, 0.dp))
