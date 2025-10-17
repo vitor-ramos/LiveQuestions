@@ -1,5 +1,7 @@
 package dev.vitorramos.livequestions.composables
 
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomSheetScaffold
@@ -8,6 +10,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import dev.vitorramos.livequestions.model.Question
@@ -30,12 +33,13 @@ fun MainContent(
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
             SheetContent(
-                tags,
-                tag,
-                tagsSearch,
-                bottomSheetScaffoldState.bottomSheetState,
-                ChipStyling(site),
-                events,
+                modifier = Modifier, // TODO
+                tags = tags,
+                selectedTag = tag,
+                searchValue = tagsSearch,
+                bottomSheetState = bottomSheetScaffoldState.bottomSheetState,
+                chipStyling = ChipStyling(site),
+                events = events,
             )
         },
         topBar = {
@@ -51,8 +55,12 @@ fun MainContent(
                 ),
             )
         }
-    ) {
-        LazyColumn {
+    ) { paddingValues ->
+        LazyColumn(
+            Modifier
+                .padding(paddingValues)
+                .consumeWindowInsets(paddingValues)
+        ) {
             items(questions) {
                 QuestionCard(
                     it,

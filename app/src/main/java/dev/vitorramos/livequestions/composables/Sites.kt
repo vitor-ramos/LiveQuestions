@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -45,17 +46,26 @@ fun Sites(
     navController: NavController,
     events: SitesListContentEvents,
 ) {
-    Scaffold { paddingValues ->
-        Column(Modifier.padding(paddingValues)) {
-            SearchBar(searchBarValue, events::onChangeSitesSearch, showCloseButton, navController)
-            LazyColumn {
-                items(sites) {
-                    SiteItem(it) { site ->
-                        events.onSelectSite(site)
-                        navController.navigate("questions") {
-                            popUpTo(-1) {
-                                inclusive = true
-                            }
+    Scaffold(
+        topBar = {
+            SearchBar(
+                modifier = Modifier.statusBarsPadding(),
+                value = searchBarValue,
+                onValueChange = events::onChangeSitesSearch,
+                showCloseButton = showCloseButton,
+                navController = navController,
+            )
+        }
+    ) { paddingValues ->
+        LazyColumn(
+            modifier = Modifier.padding(paddingValues),
+        ) {
+            items(sites) {
+                SiteItem(it) { site ->
+                    events.onSelectSite(site)
+                    navController.navigate("questions") {
+                        popUpTo(-1) {
+                            inclusive = true
                         }
                     }
                 }
@@ -67,6 +77,7 @@ fun Sites(
 @Composable
 @OptIn(ExperimentalComposeUiApi::class)
 private fun SearchBar(
+    modifier: Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     showCloseButton: Boolean,
@@ -76,7 +87,7 @@ private fun SearchBar(
     TextField(
         value,
         onValueChange,
-        Modifier.fillMaxWidth(),
+        modifier.fillMaxWidth(),
         leadingIcon = {
             if (showCloseButton) TextButton({ navController.popBackStack() }) {
                 Image(painterResource(R.drawable.back), "Voltar")
@@ -96,30 +107,32 @@ private fun SearchBar(
 private fun SiteItem(
     site: SiteData,
     onSiteSelected: (SiteData) -> Unit,
-) = Column(
-    Modifier
-        .fillMaxWidth()
-        .clickable(onClick = { onSiteSelected(site) })
 ) {
-    Row(
+    Column(
         Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .clickable(onClick = { onSiteSelected(site) })
     ) {
-        AsyncImage(
-            model = site.iconUrl,
-            contentDescription = null,
-        )
-        Spacer(Modifier.width(8.dp))
-        Column {
-            Text(site.name)
-            Text(site.audience)
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                model = site.iconUrl,
+                contentDescription = null,
+            )
+            Spacer(Modifier.width(8.dp))
+            Column {
+                Text(site.name)
+                Text(site.audience)
+            }
         }
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp),
+        )
     }
-    HorizontalDivider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(1.dp),
-    )
 }

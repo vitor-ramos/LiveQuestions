@@ -51,119 +51,123 @@ interface SheetContentEvents {
     ExperimentalMaterial3Api::class,
 )
 fun SheetContent(
+    modifier: Modifier,
     tags: List<String>,
     selectedTag: String?,
     searchValue: String,
     bottomSheetState: SheetState,
     chipStyling: ChipStyling,
     events: SheetContentEvents,
-) = Column {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .height(BottomSheetDefaults.SheetPeekHeight)
-            .clickable(
-                onClick = {
+) {
+    Column(modifier) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .height(BottomSheetDefaults.SheetPeekHeight)
+                .clickable(
+                    onClick = {
 //                  TODO
-                    GlobalScope.launch {
-                        if (bottomSheetState.currentValue != SheetValue.Expanded) bottomSheetState.expand()
-                        else bottomSheetState.hide()
+                        GlobalScope.launch {
+                            if (bottomSheetState.currentValue != SheetValue.Expanded) bottomSheetState.expand()
+                            else bottomSheetState.hide()
+                        }
                     }
-                }
-            ),
-        Arrangement.SpaceBetween,
-        Alignment.CenterVertically,
-    ) {
+                ),
+            Arrangement.SpaceBetween,
+            Alignment.CenterVertically,
+        ) {
 //        TODO
 //        val maxInput =
 //            (LocalConfiguration.current.screenHeightDp - 56) * LocalDensity.current.density
 //        val input = bottomSheetState.offset.value
 //        val angle = -convert(input, 0f, maxInput, 0f, 180f)
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(56.dp), Alignment.Center) {
-                val contentDescription = if (bottomSheetState.currentValue == SheetValue.Expanded) {
-                    "Fechar tags"
-                } else {
-                    "Abrir tags"
-                }
-                Image(
-                    painter = painterResource(id = R.drawable.ic_down),
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(56.dp), Alignment.Center) {
+                    val contentDescription =
+                        if (bottomSheetState.currentValue == SheetValue.Expanded) {
+                            "Fechar tags"
+                        } else {
+                            "Abrir tags"
+                        }
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_down),
 //                    if (angle > 90) "Fechar tags" else "Abrir tags",
-                    contentDescription = contentDescription,
-                    modifier = Modifier
-                        .size(32.dp)
+                        contentDescription = contentDescription,
+                        modifier = Modifier
+                            .size(32.dp)
 //                        .graphicsLayer(rotationZ = angle),
-                )
-            }
-            Text(getString(R.string.filter_by_tag))
-        }
-        Box(Modifier.padding(0.dp, 0.dp, 16.dp, 0.dp)) {
-            androidx.compose.animation.AnimatedVisibility(
-                visible = selectedTag?.isNotBlank() == true,
-                enter = fadeIn(),
-                exit = fadeOut(),
-            ) {
-                Chip(selectedTag ?: "", chipStyling = chipStyling) {
-                    events.onSelectTag("")
-                }
-            }
-            androidx.compose.animation.AnimatedVisibility(
-                visible = selectedTag?.isNotBlank() != true,
-                enter = fadeIn(),
-                exit = fadeOut(),
-            ) {
-                Text(getString(R.string.no_filter))
-            }
-        }
-    }
-    LocalSoftwareKeyboardController.current
-    TextField(
-        searchValue,
-        events::onChangeTagSearch,
-        Modifier.fillMaxWidth(),
-        placeholder = {
-            Text(getString(R.string.search_tags))
-        },
-        keyboardActions = KeyboardActions(onAny = {
-//            softKeyboardController?.hideSoftwareKeyboard() TODO
-            events.onClickTagSearch()
-        }),
-        trailingIcon = {
-            TextButton(events::onClickTagSearch) {
-                Image(Icons.Filled.Search, "Pesquisar")
-            }
-        },
-    )
-    if (tags.isNotEmpty()) {
-        LazyColumn(Modifier.fillMaxSize()) {
-            itemsIndexed(tags) { index, it ->
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .clickable(onClick = {
-                            events.onSelectTag(it)
-//                          TODO
-                            GlobalScope.launch { bottomSheetState.hide() }
-                        })
-                ) {
-                    val modifier = Modifier.padding(
-                        16.dp,
-                        if (index == 0) 16.dp else 8.dp,
-                        0.dp,
-                        if (index == tags.size - 1) 16.dp else 8.dp,
                     )
-                    Chip(it, modifier, chipStyling)
+                }
+                Text(getString(R.string.filter_by_tag))
+            }
+            Box(Modifier.padding(0.dp, 0.dp, 16.dp, 0.dp)) {
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = selectedTag?.isNotBlank() == true,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                ) {
+                    Chip(selectedTag ?: "", chipStyling = chipStyling) {
+                        events.onSelectTag("")
+                    }
+                }
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = selectedTag?.isNotBlank() != true,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                ) {
+                    Text(getString(R.string.no_filter))
                 }
             }
         }
-    } else {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .padding(16.dp), Alignment.TopCenter
-        ) {
-            ListLoadingIndicator()
+        LocalSoftwareKeyboardController.current
+        TextField(
+            searchValue,
+            events::onChangeTagSearch,
+            Modifier.fillMaxWidth(),
+            placeholder = {
+                Text(getString(R.string.search_tags))
+            },
+            keyboardActions = KeyboardActions(onAny = {
+//            softKeyboardController?.hideSoftwareKeyboard() TODO
+                events.onClickTagSearch()
+            }),
+            trailingIcon = {
+                TextButton(events::onClickTagSearch) {
+                    Image(Icons.Filled.Search, "Pesquisar")
+                }
+            },
+        )
+        if (tags.isNotEmpty()) {
+            LazyColumn(Modifier.fillMaxSize()) {
+                itemsIndexed(tags) { index, it ->
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable(onClick = {
+                                events.onSelectTag(it)
+//                          TODO
+                                GlobalScope.launch { bottomSheetState.hide() }
+                            })
+                    ) {
+                        val modifier = Modifier.padding(
+                            16.dp,
+                            if (index == 0) 16.dp else 8.dp,
+                            0.dp,
+                            if (index == tags.size - 1) 16.dp else 8.dp,
+                        )
+                        Chip(it, modifier, chipStyling)
+                    }
+                }
+            }
+        } else {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp), Alignment.TopCenter
+            ) {
+                ListLoadingIndicator()
+            }
         }
     }
 }
