@@ -4,6 +4,8 @@ import android.app.Application
 import dev.vitorramos.livequestions.model.Repository
 import dev.vitorramos.livequestions.model.RepositoryImpl
 import dev.vitorramos.livequestions.model.Service
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -18,8 +20,17 @@ class LiveQuestionsApp : Application() {
             androidContext(applicationContext)
             modules(module {
                 single<Repository> { RepositoryImpl() }
+                single<OkHttpClient> {
+                    OkHttpClient.Builder().run {
+                        addInterceptor(HttpLoggingInterceptor().apply {
+                            level = HttpLoggingInterceptor.Level.BODY
+                        })
+                        build()
+                    }
+                }
                 single<Service> {
                     Retrofit.Builder()
+                        .client(get())
                         .baseUrl("https://api.stackexchange.com/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()

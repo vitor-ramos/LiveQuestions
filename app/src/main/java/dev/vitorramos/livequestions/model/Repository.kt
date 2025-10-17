@@ -26,8 +26,8 @@ class RepositoryImpl : Repository {
     }
 
     override suspend fun getTags(siteId: String, inname: String?, page: Int) =
-            service.fetchTags(siteId, page, inname)?.body()?.items?.filterNotNull()?.map { it.name }
-                    ?: listOf()
+        service.fetchTags(siteId, page, inname)?.body()?.items?.filterNotNull()?.map { it.name }
+            ?: listOf()
 
     override suspend fun getSites() = mutableListOf<SiteData>().apply {
         service.fetchSites()?.body()?.items?.filterNotNull()?.let {
@@ -36,7 +36,7 @@ class RepositoryImpl : Repository {
     }
 
     override fun getSelectedSiteId() =
-            sharedPref.string(SHARED_PREF_KEY_SELECTED_SITE, "")
+        sharedPref.string(SHARED_PREF_KEY_SELECTED_SITE, "")
 
     override suspend fun selectSite(siteId: String) {
         sharedPref.edit().apply {

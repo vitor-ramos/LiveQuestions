@@ -1,9 +1,17 @@
 package dev.vitorramos.livequestions.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.vitorramos.livequestions.composables.SheetContentEvents
 import dev.vitorramos.livequestions.composables.SitesListContentEvents
-import dev.vitorramos.livequestions.model.*
+import dev.vitorramos.livequestions.model.Question
+import dev.vitorramos.livequestions.model.Repository
+import dev.vitorramos.livequestions.model.Site
+import dev.vitorramos.livequestions.model.SiteData
+import dev.vitorramos.livequestions.model.SiteNotSelected
 import dev.vitorramos.livequestions.moveToFirst
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject

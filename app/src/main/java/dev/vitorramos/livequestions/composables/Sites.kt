@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TextField
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -66,7 +66,7 @@ private fun SearchBar(
     showCloseButton: Boolean,
     navController: NavController,
 ) {
-    val softKeyboardController = LocalSoftwareKeyboardController.current
+    LocalSoftwareKeyboardController.current
     TextField(
         value,
         onValueChange,
@@ -111,9 +111,10 @@ private fun SiteItem(
             Text(site.audience, color = colorSecondaryText)
         }
     }
-    Divider(
-        Modifier
+    HorizontalDivider(
+        modifier = Modifier
             .fillMaxWidth()
-            .height(1.dp), colorDivider
+            .height(1.dp),
+        color = colorDivider,
     )
 }

@@ -5,27 +5,35 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.*
-import androidx.compose.material.TextFieldDefaults.textFieldColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import dev.vitorramos.livequestions.R
-import dev.vitorramos.livequestions.convert
 import dev.vitorramos.livequestions.getString
 import dev.vitorramos.livequestions.ui.colorSecondaryText
 import kotlinx.coroutines.GlobalScope
@@ -41,25 +49,26 @@ interface SheetContentEvents {
 @OptIn(
     ExperimentalAnimationApi::class,
     ExperimentalComposeUiApi::class,
-    ExperimentalMaterialApi::class,
+    ExperimentalMaterial3Api::class,
 )
 fun SheetContent(
     tags: List<String>,
     selectedTag: String?,
     searchValue: String,
-    bottomSheetState: BottomSheetState,
+    bottomSheetState: SheetState,
     chipStyling: ChipStyling,
     events: SheetContentEvents,
 ) = Column {
     Row(
         Modifier
             .fillMaxWidth()
-            .height(BottomSheetScaffoldDefaults.SheetPeekHeight)
+            .height(BottomSheetDefaults.SheetPeekHeight)
             .clickable(
                 onClick = {
+//                  TODO
                     GlobalScope.launch {
-                        if (bottomSheetState.isCollapsed) bottomSheetState.expand()
-                        else bottomSheetState.collapse()
+                        if (bottomSheetState.currentValue != SheetValue.Expanded) bottomSheetState.expand()
+                        else bottomSheetState.hide()
                     }
                 }
             ),
@@ -74,11 +83,16 @@ fun SheetContent(
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.size(56.dp), Alignment.Center) {
+                val contentDescription = if (bottomSheetState.currentValue == SheetValue.Expanded) {
+                    "Fechar tags"
+                } else {
+                    "Abrir tags"
+                }
                 Image(
-                    painterResource(R.drawable.ic_down),
+                    painter = painterResource(id = R.drawable.ic_down),
 //                    if (angle > 90) "Fechar tags" else "Abrir tags",
-                    if (bottomSheetState.isExpanded) "Fechar tags" else "Abrir tags",
-                    Modifier
+                    contentDescription = contentDescription,
+                    modifier = Modifier
                         .size(32.dp)
 //                        .graphicsLayer(rotationZ = angle),
                 )
@@ -104,7 +118,7 @@ fun SheetContent(
             }
         }
     }
-    val softKeyboardController = LocalSoftwareKeyboardController.current
+    LocalSoftwareKeyboardController.current
     TextField(
         searchValue,
         events::onChangeTagSearch,
@@ -121,7 +135,7 @@ fun SheetContent(
                 Image(Icons.Filled.Search, "Pesquisar")
             }
         },
-        colors = textFieldColors(backgroundColor = Color(0xFFF4F4F4)),
+//        colors = TextFieldDefaults.colors(backgroundColor = Color(0xFFF4F4F4)), TODO
     )
     if (tags.isNotEmpty()) {
         LazyColumn(Modifier.fillMaxSize()) {
@@ -131,7 +145,8 @@ fun SheetContent(
                         .fillMaxWidth()
                         .clickable(onClick = {
                             events.onSelectTag(it)
-                            GlobalScope.launch { bottomSheetState.collapse() }
+//                          TODO
+                            GlobalScope.launch { bottomSheetState.hide() }
                         })
                 ) {
                     val modifier = Modifier.padding(

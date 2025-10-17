@@ -1,10 +1,17 @@
 package dev.vitorramos.livequestions.composables
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,13 +47,13 @@ fun QuestionCard(
         }
     }
     Spacer(Modifier.height(8.dp))
-    Divider(color = Color.LightGray)
+    HorizontalDivider(color = Color.LightGray)
     Text(
         LocalContext.current.getString(if (question.isAnswered) R.string.answered else R.string.not_answered_yet),
         Modifier.padding(16.dp, 8.dp, 0.dp, 8.dp),
         if (question.isAnswered) colorAnsweredQuestion else colorSecondaryText,
     )
-    Divider(color = Color.LightGray)
+    HorizontalDivider(color = Color.LightGray)
     Spacer(Modifier.height(8.dp))
     Row(
         Modifier
@@ -77,5 +84,5 @@ fun QuestionCard(
         }
     }
     Spacer(Modifier.height(8.dp))
-    Divider(color = Color.Black)
+    HorizontalDivider(color = Color.Black)
 }

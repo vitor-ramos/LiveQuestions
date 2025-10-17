@@ -1,7 +1,7 @@
 package dev.vitorramos.livequestions.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import java.util.Date
 
 data class Question(
     val answers: Int,

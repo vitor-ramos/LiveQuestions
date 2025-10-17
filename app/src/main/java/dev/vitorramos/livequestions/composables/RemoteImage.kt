@@ -2,7 +2,6 @@ package dev.vitorramos.livequestions.composables
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
 fun RemoteImage(
@@ -20,6 +19,6 @@ fun RemoteImage(
 //            error = { fallback() },
 //        )
 //    } else {
-        fallback()
+    fallback()
 //    }
 }
