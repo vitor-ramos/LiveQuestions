@@ -16,7 +16,10 @@ import dev.vitorramos.livequestions.moveToFirst
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
-class MainViewModel : ViewModel(), SitesListContentEvents, SheetContentEvents {
+class MainViewModel :
+    ViewModel(),
+    SitesListContentEvents,
+    SheetContentEvents {
     private val repository: Repository by inject(Repository::class.java)
 
     private val questionsImpl = MediatorLiveData<List<Question>>()
@@ -93,23 +96,28 @@ class MainViewModel : ViewModel(), SitesListContentEvents, SheetContentEvents {
             if (sitesFilteredBySearch != search) {
                 sitesFilteredBySearch = search
                 val filtered = allSites.filter { it.name.contains(search, true) }
-                val movedSelectedToFirst = (site.value as? SiteData)?.let { siteData ->
-                    filtered.moveToFirst { it.apiSiteParameter == siteData.apiSiteParameter }
-                } ?: filtered
+                val movedSelectedToFirst =
+                    (site.value as? SiteData)?.let { siteData ->
+                        filtered.moveToFirst { it.apiSiteParameter == siteData.apiSiteParameter }
+                    } ?: filtered
                 sitesImpl.postValue(movedSelectedToFirst)
             }
         }
         viewModelScope.launch {
             repository.getSelectedSiteId().takeIf { it.isNotBlank() }?.let { siteId ->
-                if (siteId.isBlank()) siteImpl.postValue(SiteNotSelected())
-                else siteImpl.postValue(repository.getSite(siteId))
+                if (siteId.isBlank()) {
+                    siteImpl.postValue(SiteNotSelected())
+                } else {
+                    siteImpl.postValue(repository.getSite(siteId))
+                }
             }
         }
         viewModelScope.launch {
             allSites = repository.getSites()
-            val movedSelectedToFirst = (site.value as? SiteData)?.let { siteData ->
-                allSites.moveToFirst { it.apiSiteParameter == siteData.apiSiteParameter }
-            } ?: allSites
+            val movedSelectedToFirst =
+                (site.value as? SiteData)?.let { siteData ->
+                    allSites.moveToFirst { it.apiSiteParameter == siteData.apiSiteParameter }
+                } ?: allSites
             sitesImpl.postValue(movedSelectedToFirst)
         }
     }

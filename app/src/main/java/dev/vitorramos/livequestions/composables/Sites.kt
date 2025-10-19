@@ -35,6 +35,7 @@ import dev.vitorramos.livequestions.model.SiteData
 
 interface SitesListContentEvents {
     fun onChangeSitesSearch(value: String)
+
     fun onSelectSite(site: SiteData)
 }
 
@@ -55,7 +56,7 @@ fun Sites(
                 showCloseButton = showCloseButton,
                 navController = navController,
             )
-        }
+        },
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier.padding(paddingValues),
@@ -96,12 +97,13 @@ private fun SearchBar(
             },
             textStyle = TextStyle(fontSize = 16.sp),
             singleLine = true,
-            keyboardActions = KeyboardActions {
-                softwareKeyboardController?.hide()
-            },
+            keyboardActions =
+                KeyboardActions {
+                    softwareKeyboardController?.hide()
+                },
             placeholder = {
                 Text(getString(R.string.search_sites))
-            }
+            },
         )
     } else {
         TextField(
@@ -110,12 +112,13 @@ private fun SearchBar(
             modifier = modifier.fillMaxWidth(),
             textStyle = TextStyle(fontSize = 16.sp),
             singleLine = true,
-            keyboardActions = KeyboardActions {
-                softwareKeyboardController?.hide()
-            },
+            keyboardActions =
+                KeyboardActions {
+                    softwareKeyboardController?.hide()
+                },
             placeholder = {
                 Text(getString(R.string.search_sites))
-            }
+            },
         )
     }
 }
@@ -128,13 +131,13 @@ private fun SiteItem(
     Column(
         Modifier
             .fillMaxWidth()
-            .clickable(onClick = { onSiteSelected(site) })
+            .clickable(onClick = { onSiteSelected(site) }),
     ) {
         Row(
             Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             AsyncImage(
                 model = site.iconUrl,
@@ -147,9 +150,10 @@ private fun SiteItem(
             }
         }
         HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(1.dp),
         )
     }
 }

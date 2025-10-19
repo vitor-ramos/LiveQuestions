@@ -34,7 +34,9 @@ import dev.vitorramos.livequestions.getString
 
 interface SheetContentEvents {
     fun onSelectTag(tag: String?)
+
     fun onChangeTagSearch(value: String)
+
     fun onClickTagSearch()
 }
 
@@ -61,10 +63,11 @@ fun Tags(
             placeholder = {
                 Text(getString(R.string.search_tags))
             },
-            keyboardActions = KeyboardActions(onAny = {
-                softwareKeyboardController?.hide()
-                events.onClickTagSearch()
-            }),
+            keyboardActions =
+                KeyboardActions(onAny = {
+                    softwareKeyboardController?.hide()
+                    events.onClickTagSearch()
+                }),
             leadingIcon = {
                 TextButton({ navController.navigate("questions") }) {
                     Image(Icons.AutoMirrored.Default.ArrowBack, "Voltar")
@@ -78,9 +81,10 @@ fun Tags(
         )
         if (tag != null) {
             Box(
-                modifier = Modifier
-                    .height(56.dp)
-                    .padding(start = 16.dp),
+                modifier =
+                    Modifier
+                        .height(56.dp)
+                        .padding(start = 16.dp),
                 contentAlignment = Alignment.Center,
             ) {
                 Chip(tag, chipStyling = chipStyling) {
@@ -98,14 +102,15 @@ fun Tags(
                             .clickable(onClick = {
                                 events.onSelectTag(it)
                                 navController.navigate("questions")
-                            })
+                            }),
                     ) {
-                        val modifier = Modifier.padding(
-                            16.dp,
-                            if (index == 0) 16.dp else 8.dp,
-                            0.dp,
-                            if (index == tags.size - 1) 16.dp else 8.dp,
-                        )
+                        val modifier =
+                            Modifier.padding(
+                                16.dp,
+                                if (index == 0) 16.dp else 8.dp,
+                                0.dp,
+                                if (index == tags.size - 1) 16.dp else 8.dp,
+                            )
                         Chip(it, modifier, chipStyling)
                     }
                 }
@@ -114,7 +119,8 @@ fun Tags(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .padding(16.dp), Alignment.TopCenter
+                    .padding(16.dp),
+                Alignment.TopCenter,
             ) {
                 ListLoadingIndicator()
             }

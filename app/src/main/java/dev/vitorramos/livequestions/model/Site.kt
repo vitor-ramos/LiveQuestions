@@ -19,7 +19,10 @@ class SiteData(
     @SerializedName("styling") val styling: SiteStyling,
 ) : Site() {
     override fun equals(other: Any?): Boolean =
-        if (other !is SiteData) false else apiSiteParameter == other.apiSiteParameter &&
+        if (other !is SiteData) {
+            false
+        } else {
+            apiSiteParameter == other.apiSiteParameter &&
                 name == other.name &&
                 audience == other.audience &&
                 iconUrl == other.iconUrl &&
@@ -27,8 +30,10 @@ class SiteData(
                 styling.linkColor == other.styling.linkColor &&
                 styling.tagBackgroundColor == other.styling.tagBackgroundColor &&
                 styling.tagForegroundColor == other.styling.tagForegroundColor
+        }
 
-    override fun hashCode() = apiSiteParameter.length + name.length + audience.length +
+    override fun hashCode() =
+        apiSiteParameter.length + name.length + audience.length +
             iconUrl.length + logoUrl.length + styling.linkColor.length +
             styling.tagBackgroundColor.length + styling.tagForegroundColor.length
 }
@@ -39,4 +44,6 @@ class SiteStyling(
     @SerializedName("tag_foreground_color") val tagForegroundColor: String,
 )
 
-class SitesResponse(@SerializedName("items") val items: List<SiteData?>)
+class SitesResponse(
+    @SerializedName("items") val items: List<SiteData?>,
+)

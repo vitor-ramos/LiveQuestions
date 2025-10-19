@@ -48,9 +48,10 @@ fun Questions(
                         navController,
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                ),
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.White,
+                    ),
             )
         },
         bottomBar = {
@@ -94,7 +95,7 @@ fun Questions(
         LazyColumn(
             Modifier
                 .padding(paddingValues)
-                .consumeWindowInsets(paddingValues)
+                .consumeWindowInsets(paddingValues),
         ) {
             items(questions) {
                 QuestionCard(

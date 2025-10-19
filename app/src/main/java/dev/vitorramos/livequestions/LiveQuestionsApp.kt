@@ -18,28 +18,33 @@ class LiveQuestionsApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(applicationContext)
-            modules(module {
-                single<Repository> { RepositoryImpl() }
-                single<OkHttpClient> {
-                    OkHttpClient.Builder().run {
-                        addInterceptor(HttpLoggingInterceptor().apply {
-                            level = HttpLoggingInterceptor.Level.BODY
-                        })
-                        build()
+            modules(
+                module {
+                    single<Repository> { RepositoryImpl() }
+                    single<OkHttpClient> {
+                        OkHttpClient.Builder().run {
+                            addInterceptor(
+                                HttpLoggingInterceptor().apply {
+                                    level = HttpLoggingInterceptor.Level.BODY
+                                },
+                            )
+                            build()
+                        }
                     }
-                }
-                single<Service> {
-                    Retrofit.Builder()
-                        .client(get())
-                        .baseUrl("https://api.stackexchange.com/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build()
-                        .create(Service::class.java)
-                }
-                single {
-                    getSharedPreferences("preferences", MODE_PRIVATE)
-                }
-            })
+                    single<Service> {
+                        Retrofit
+                            .Builder()
+                            .client(get())
+                            .baseUrl("https://api.stackexchange.com/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build()
+                            .create(Service::class.java)
+                    }
+                    single {
+                        getSharedPreferences("preferences", MODE_PRIVATE)
+                    }
+                },
+            )
         }
     }
 }

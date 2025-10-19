@@ -51,7 +51,10 @@ fun Chip(
     }
 }
 
-data class ChipStyling(val backgroundColor: Color, val foregroundColor: Color) {
+data class ChipStyling(
+    val backgroundColor: Color,
+    val foregroundColor: Color,
+) {
     @OptIn(ExperimentalUnsignedTypes::class)
     constructor(siteData: SiteData) : this(
         Color(siteData.styling.tagBackgroundColor.labeledHexToLong()),

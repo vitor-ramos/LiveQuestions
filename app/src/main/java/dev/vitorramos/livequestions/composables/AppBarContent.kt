@@ -21,7 +21,10 @@ import dev.vitorramos.livequestions.getString
 import dev.vitorramos.livequestions.model.SiteData
 
 @Composable
-fun AppBarContent(site: SiteData, navController: NavController) {
+fun AppBarContent(
+    site: SiteData,
+    navController: NavController,
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,

@@ -23,7 +23,9 @@ data class Question(
     )
 }
 
-data class QuestionsResponse(@SerializedName("items") val items: List<QuestionItem?>)
+data class QuestionsResponse(
+    @SerializedName("items") val items: List<QuestionItem?>,
+)
 
 data class QuestionItem(
     @SerializedName("answer_count") val answer_count: Int,

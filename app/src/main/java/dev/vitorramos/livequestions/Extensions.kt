@@ -12,13 +12,14 @@ inline fun <T> List<T>.moveToFirst(predicate: (T) -> Boolean): List<T> =
 
 fun SharedPreferences.getString(key: String): String? = getString(key, null)
 
-fun SharedPreferences.string(key: String, defValue: String): String = getString(key, defValue)!!
+fun SharedPreferences.string(
+    key: String,
+    defValue: String,
+): String = getString(key, defValue)!!
 
 @Composable
-fun getString(@StringRes id: Int) = LocalContext.current.getString(id)
+fun getString(
+    @StringRes id: Int,
+) = LocalContext.current.getString(id)
 
-fun convert(input: Float, minInput: Float, maxInput: Float, minOutput: Float, maxOutput: Float) =
-    input / (maxInput - minInput) * (maxOutput - minOutput)
-
-fun String.labeledHexToLong() =
-    "$this${if (length == 4) substring(1, length) else ""}".replace("#", "FF").toLong(16)
+fun String.labeledHexToLong() = "$this${if (length == 4) substring(1, length) else ""}".replace("#", "FF").toLong(16)
