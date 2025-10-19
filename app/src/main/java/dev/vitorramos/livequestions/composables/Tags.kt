@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.vitorramos.livequestions.R
@@ -51,6 +52,7 @@ fun Tags(
     events: SheetContentEvents,
     navController: NavController,
 ) {
+    val softwareKeyboardController = LocalSoftwareKeyboardController.current
     Column(Modifier.systemBarsPadding()) {
         TextField(
             searchValue,
@@ -60,7 +62,7 @@ fun Tags(
                 Text(getString(R.string.search_tags))
             },
             keyboardActions = KeyboardActions(onAny = {
-//            softKeyboardController?.hideSoftwareKeyboard() TODO
+                softwareKeyboardController?.hide()
                 events.onClickTagSearch()
             }),
             leadingIcon = {
