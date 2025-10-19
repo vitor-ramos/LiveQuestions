@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">LiveQuestions</string>
     <string name="select_site">Select site</string>
-    <string name="filter_by_tag">Filter by tag:</string>
+    <string name="filter_by_tag">Filter by tag</string>
     <string name="no_filter">No filter</string>
     <string name="search_tags">Search tags</string>
     <string name="search_sites">Search sites</string>

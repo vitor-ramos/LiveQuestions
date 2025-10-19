@@ -12,7 +12,7 @@ interface Repository {
     fun getSelectedSiteId(): String
     suspend fun selectSite(siteId: String)
     suspend fun selectTag(tag: String?)
-    fun getSelectedTag(): String
+    fun getSelectedTag(): String?
     suspend fun getSite(siteId: String): Site?
 }
 
@@ -45,11 +45,12 @@ class RepositoryImpl : Repository {
         }
     }
 
-    override fun getSelectedTag() = sharedPref.getString(SHARED_PREF_KEY_SELECTED_TAG) ?: ""
+    override fun getSelectedTag() = sharedPref.getString(SHARED_PREF_KEY_SELECTED_TAG)
 
     override suspend fun selectTag(tag: String?) {
         sharedPref.edit().apply {
-            putString(SHARED_PREF_KEY_SELECTED_TAG, tag)
+            if (tag != null) putString(SHARED_PREF_KEY_SELECTED_TAG, tag)
+            else remove(SHARED_PREF_KEY_SELECTED_TAG)
             apply()
         }
     }

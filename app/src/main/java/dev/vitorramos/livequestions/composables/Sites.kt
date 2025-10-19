@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -83,24 +82,38 @@ private fun SearchBar(
     showCloseButton: Boolean,
     navController: NavController,
 ) {
-    LocalSoftwareKeyboardController.current
-    TextField(
-        value,
-        onValueChange,
-        modifier.fillMaxWidth(),
-        leadingIcon = {
-            if (showCloseButton) TextButton({ navController.popBackStack() }) {
-                Image(painterResource(R.drawable.back), "Voltar")
-            }
-        },
-        textStyle = TextStyle(fontSize = 16.sp),
-        keyboardActions = KeyboardActions {
+    if (showCloseButton) {
+        TextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = modifier.fillMaxWidth(),
+            leadingIcon = {
+                TextButton({ navController.popBackStack() }) {
+                    Image(painterResource(R.drawable.back), "Voltar")
+                }
+            },
+            textStyle = TextStyle(fontSize = 16.sp),
+            keyboardActions = KeyboardActions {
 //            softKeyboardController?.hideSoftwareKeyboard() TODO
-        },
-        placeholder = {
-            Text(getString(R.string.search_sites))
-        }
-    )
+            },
+            placeholder = {
+                Text(getString(R.string.search_sites))
+            }
+        )
+    } else {
+        TextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = modifier.fillMaxWidth(),
+            textStyle = TextStyle(fontSize = 16.sp),
+            keyboardActions = KeyboardActions {
+//            softKeyboardController?.hideSoftwareKeyboard() TODO
+            },
+            placeholder = {
+                Text(getString(R.string.search_sites))
+            }
+        )
+    }
 }
 
 @Composable

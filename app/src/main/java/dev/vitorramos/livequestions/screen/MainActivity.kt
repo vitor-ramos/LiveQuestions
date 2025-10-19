@@ -13,8 +13,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import dev.vitorramos.livequestions.composables.MainContent
+import dev.vitorramos.livequestions.composables.ChipStyling
+import dev.vitorramos.livequestions.composables.Questions
 import dev.vitorramos.livequestions.composables.Sites
+import dev.vitorramos.livequestions.composables.Tags
 import dev.vitorramos.livequestions.model.SiteData
 import dev.vitorramos.livequestions.ui.LiveQuestionsTheme
 import dev.vitorramos.livequestions.viewmodel.MainViewModel
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     @Composable
     @OptIn(ExperimentalMaterial3Api::class)
     private fun Content() {
-        val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
+        rememberBottomSheetScaffoldState()
         val navController = rememberNavController()
 
         val questions by viewModel.questions.observeAsState(listOf())
@@ -46,24 +48,29 @@ class MainActivity : AppCompatActivity() {
         val sitesSearch by viewModel.sitesSearch.observeAsState("")
         val tagsSearch by viewModel.tagsSearch.observeAsState("")
 
-        val loading by viewModel.loading.observeAsState(false)
-
         LiveQuestionsTheme {
             NavHost(
                 navController,
                 if (site is SiteData) "questions" else "sites",
             ) {
                 composable("questions") {
-                    MainContent(
+                    Questions(
                         site = site as SiteData,
                         questions = questions,
-                        tags = tags,
                         tag = tag,
-                        tagsSearch = tagsSearch,
-                        loading = loading,
-                        bottomSheetScaffoldState = bottomSheetScaffoldState,
                         navController = navController,
                         events = viewModel,
+                        chipStyling = ChipStyling(site as SiteData),
+                    )
+                }
+                composable("tags") {
+                    Tags(
+                        tags = tags,
+                        tag = tag,
+                        searchValue = tagsSearch,
+                        chipStyling = ChipStyling(site as SiteData),
+                        events = viewModel,
+                        navController = navController,
                     )
                 }
                 composable("sites") {

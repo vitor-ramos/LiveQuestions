@@ -29,19 +29,15 @@ class MainViewModel : ViewModel(), SitesListContentEvents, SheetContentEvents {
     private val sitesSearchImpl = MutableLiveData("")
     private val tagsSearchImpl = MutableLiveData("")
 
-    private val loadingImpl = MutableLiveData<Boolean>()
-
     val questions: LiveData<List<Question>> = questionsImpl
     val sites: LiveData<List<SiteData>> = sitesImpl
     val tags: LiveData<List<String>> = tagsImpl
 
     val site: LiveData<Site> = siteImpl
-    val tag: LiveData<String> = tagImpl
+    val tag: LiveData<String?> = tagImpl
 
     val sitesSearch: LiveData<String> = sitesSearchImpl
     val tagsSearch: LiveData<String> = tagsSearchImpl
-
-    val loading: LiveData<Boolean> = loadingImpl
 
     // cache controllers - start
     private var loadedQuestionsFromSite: String? = null
@@ -104,7 +100,7 @@ class MainViewModel : ViewModel(), SitesListContentEvents, SheetContentEvents {
             }
         }
         viewModelScope.launch {
-            repository.getSelectedSiteId().let { siteId ->
+            repository.getSelectedSiteId().takeIf { it.isNotBlank() }?.let { siteId ->
                 if (siteId.isBlank()) siteImpl.postValue(SiteNotSelected())
                 else siteImpl.postValue(repository.getSite(siteId))
             }
@@ -118,7 +114,7 @@ class MainViewModel : ViewModel(), SitesListContentEvents, SheetContentEvents {
         }
     }
 
-    override fun onSelectTag(tag: String) {
+    override fun onSelectTag(tag: String?) {
         tagImpl.postValue(tag)
         viewModelScope.launch { repository.selectTag(tag) }
     }
