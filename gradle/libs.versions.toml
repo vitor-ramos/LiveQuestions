@@ -1,5 +1,5 @@
 [versions]
-agp = "9.0.0-alpha10"
+agp = "8.13.0"
 coilCompose = "3.3.0"
 converterGson = "3.0.0"
 coreKtx = "1.17.0"
@@ -48,4 +48,5 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
