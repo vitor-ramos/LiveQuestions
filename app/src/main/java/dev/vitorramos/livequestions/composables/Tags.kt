@@ -78,6 +78,7 @@ fun Tags(
                     Image(Icons.Filled.Search, "Pesquisar")
                 }
             },
+            singleLine = true,
         )
         if (tag != null) {
             Box(

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<journey name="Select site and filter by tag">
+    <description xml:space="preserve">A Journey that tests ...</description>
+    <actions xml:space="preserve">
+        <action>Wait for the list of available sites to appear</action>
+        <action>Click on the first site in the list</action>
+        <action>Wait for questions to appear</action>
+        <action>Verify that questions are from the correct chosen site in the last screen</action>
+        <action>Verify that questions are not filtered by tag</action>
+        <action>Go to page: "Filter by tag"</action>
+        <action>Wait for suggested tags to appear</action>
+        <action>Seach for a specific tag</action>
+        <action>Verify that the results list shows only tags matching search</action>
+        <action>Select first avaialble tag</action>
+        <action>Wait for questions to appear</action>
+        <action>Verify that questions are from chosen site and filtered by chosen tag</action>
+        </actions>
+</journey>

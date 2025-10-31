@@ -134,7 +134,6 @@ class MainViewModel :
     override fun onSelectSite(site: SiteData) {
         viewModelScope.launch {
             repository.selectSite(site.apiSiteParameter)
-            tagImpl.postValue("")
             siteImpl.postValue(site)
         }
     }
